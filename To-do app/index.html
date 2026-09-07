@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>To Do List Graveyard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- =========================
+             MAIN CONTENT
+        ========================== -->
+
+        <main class="main">
+
+    
+
+            <!-- Dashboard -->
+            <section
+                class="page active"
+                data-page="dashboard"
+                id="page-dashboard"
+            >
+
+                <div
+                    class="notes-grid"
+                    id="notesGrid"
+                >
+                    <!-- JavaScript will put the sticky notes here -->
+                </div>
+
+            </section>
+
+
+    <!-- Add Task -->
+
+<section class="page" data-page="add-task" id="page-add-task" > <div class="add-task-container">
+
+    <div class="add-task-header">
+        <span class="add-task-pin"></span>
+
+        <h2>Add New Task</h2>
+
+        <p>
+            Leave something behind for your future self.
+        </p>
+    </div>
+
+
+    <form id="addTaskForm" class="task-form">
+
+        <div class="form-group">
+            <label for="addTaskName">
+                Task name
+            </label>
+
+            <input
+                type="text"
+                id="addTaskName"
+                placeholder="What needs to be done?"
+                required
+            >
+        </div>
+
+
+        <div class="form-group">
+            <label for="addTaskDescription">
+                Description
+            </label>
+
+            <textarea
+                id="addTaskDescription"
+                placeholder="Add some details..."
+                required
+            ></textarea>
+        </div>
+
+
+        <div class="form-group">
+            <label for="addTaskPriority">
+                Priority
+            </label>
+
+            <select id="addTaskPriority">
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+                <option value="important">Important</option>
+            </select>
+        </div>
+
+
+        <button
+            type="submit"
+            class="add-task-button"
+        >
+            <i class="fa-solid fa-plus"></i>
+            Add Task
+        </button>
+
+    </form>
+
+</div>
+
+</section>
+
+
+         <section class="update-modal" id="updateModal">
+
+```
+<div class="update-modal-box">
+
+    <button type="button" class="close-update" id="closeUpdate">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <h2>Update Task</h2>
+
+    <form id="updateTaskForm">
+
+        <input type="hidden" id="updateTaskId">
+
+
+        <div class="form-group">
+            <label for="updateTaskName">
+                Task name
+            </label>
+
+            <input
+                type="text"
+                id="updateTaskName"
+                placeholder="Task name"
+                required
+            >
+        </div>
+
+
+        <div class="form-group">
+            <label for="updateTaskDescription">
+                Description
+            </label>
+
+            <textarea
+                id="updateTaskDescription"
+                placeholder="Task description"
+                required
+            ></textarea>
+        </div>
+
+
+        <div class="form-group">
+            <label for="updateTaskPriority">
+                Priority
+            </label>
+
+            <select id="updateTaskPriority">
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+                <option value="important">Important</option>
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label for="updateTaskStatus">
+                Status
+            </label>
+
+            <select id="updateTaskStatus">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+
+
+        <button type="submit" class="update-task-button">
+            <i class="fa-solid fa-pen-to-square"></i>
+            Update Task
+        </button>
+
+    </form>
+
+</div>
+
+
+</section>
+
+        </main>
+
+
+        <!-- =========================
+             SIDEBAR
+        ========================== -->
+
+        <aside class="sidebar">
+
+            <nav class="sidebar-nav">
+
+                <!-- Dashboard -->
+                <a
+                    href="#"
+                    class="nav-link active"
+                    data-page="dashboard"
+                >
+                    Dashboard
+                </a>
+
+
+                <!-- Add Task -->
+                <a
+                    href="#"
+                    class="nav-link"
+                    data-page="add-task"
+                    aria-label="Add new task"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+
+            </nav>
+
+
+            <!-- Logged-in user -->
+            <div class="sidebar-bottom">
+
+                <a
+                    href="#"
+                    class="nav-link"
+                    id="userName"
+                >
+                </a>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+
+    <!-- jQuery -->
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.min.js">
+    </script>
+
+    <!-- Your JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>

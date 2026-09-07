@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The To-Do Graveyard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=EB+Garamond:ital@0;1&family=Cormorant:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="page">
+  <div class="card">
+
+    <img src="graveyard.png" alt="The To-Do Graveyard" class="logo">
+
+    <div class="form-wrap">
+
+      <!-- ===== LOGIN FORM ===== -->
+      <form id="loginForm" class="auth-form" novalidate>
+        <p class="tagline">Login to enter</p>
+
+        <p class="form-error" id="loginError"></p>
+
+        <label class="field">
+          <span class="field-label">EMAIL:</span>
+          <input type="email" name="email" id="loginEmail" autocomplete="username" required>
+        </label>
+
+        <label class="field">
+          <span class="field-label">PASSWORD:</span>
+          <input type="password" name="password" id="loginPassword" autocomplete="current-password" required>
+        </label>
+
+        <button type="submit" class="tombstone-btn">
+          <span>Enter the Graveyard</span>
+        </button>
+
+        <p class="switch-line">
+          No plot reserved yet?
+          <a href="#" id="showSignup">Dig your grave</a>
+        </p>
+      </form>
+
+      <!-- ===== SIGN UP FORM ===== -->
+      <form id="signupForm" class="auth-form hidden" novalidate>
+        <p class="tagline">Reserve your plot</p>
+
+        <p class="form-error" id="signupError"></p>
+
+        <label class="field">
+          <span class="field-label">FIRST NAME:</span>
+          <input type="text" name="first_name" id="signupFirstName" autocomplete="given-name" required>
+        </label>
+
+        <label class="field">
+          <span class="field-label">LAST NAME:</span>
+          <input type="text" name="last_name" id="signupLastName" autocomplete="family-name" required>
+        </label>
+
+        <label class="field">
+          <span class="field-label">EMAIL:</span>
+          <input type="email" name="email" id="signupEmail" autocomplete="email" required>
+        </label>
+
+        <label class="field">
+          <span class="field-label">PASSWORD:</span>
+          <input type="password" name="password" id="signupPassword" autocomplete="new-password" required>
+        </label>
+
+        <label class="field">
+          <span class="field-label">CONFIRM PASSWORD:</span>
+          <input type="password" name="confirm_password" id="signupConfirmPassword" autocomplete="new-password" required>
+        </label>
+
+        <button type="submit" class="tombstone-btn">
+          <span>Claim Your Plot</span>
+        </button>
+
+        <p class="switch-line">
+          Already resting here?
+          <a href="#" id="showLogin">Return to login</a>
+        </p>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="signin.js"></script>
+<script>

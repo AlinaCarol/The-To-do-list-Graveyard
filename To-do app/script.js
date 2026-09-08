@@ -6,7 +6,11 @@ if(!user){
     window.location.href = "signin.html";
     return; 
 }
-
+$("#logout").on("click", function(e){
+    e.preventDefault();
+    sessionStorage.removeItem("graveyard_user");
+       window.location.href = "signin.html";
+});
 var task=[];
 
 
@@ -71,10 +75,12 @@ else{
 
     var update=$("<button>").addClass("edit-task").attr("data-id", task.item_id).html('<i class="fa-solid fa-pen-to-square"></i>');
      var disappearalnote=$("<button>").addClass("delete-task").attr("data-id", task.item_id).html('<i class="fa-solid fa-xmark"></i>');
+     var done = $("<button>") .addClass("done-task") .attr("data-id", task.item_id).html('<i class="fa-solid fa-check"></i>');
     note.append(title);
     note.append(description);
     note.append(update);
     note.append(disappearalnote);
+    note.append(done);
     return note; 
 }
 
@@ -92,7 +98,57 @@ function renderNotes(list){
     });
      console.log("Notes grid:", $("#notesGrid").html());
 }
+function showNotification(message){
+    $("#notification").text(message);
+    $("#notification").addClass("show");
 
+    setTimeout(function(){
+        $("#notification").removeClass("show");
+    }, 2500);
+}
+function changeTaskStatus(taskId){
+
+    $.ajax({
+        url: API_ROOT + "/statusItem_action.php?item_id=" + taskId + "&status=inactive",
+        method: "PUT",
+        dataType: "json"
+    }) 
+    .done(function(response){
+
+        console.log("Status Response:");
+        console.log(response);
+
+        task = task.filter(function(t){
+            return t.item_id != taskId;
+        });
+
+        renderNotes(task);
+
+        showNotification("Task completed!");
+
+    })
+    .fail(function(xhr){
+
+        console.log("Status update failed:");
+        console.log(xhr.responseText);
+
+    });
+}
+$(document).on("click", ".done-task", function(){
+
+    var id = $(this).data("id");
+
+    console.log("Done task clicked:", id);
+
+    changeTaskStatus(id);
+});
+$(document).on("click", ".done-task", function(){
+    var id = $(this).data("id");
+
+    console.log("Done task clicked:", id);
+
+    changeTaskStatus(id);
+});
   $(document).on("click", ".edit-task", function(){
         var id=$(this).data("id");
         console.log("Edit task clicked:", id);
@@ -118,40 +174,41 @@ $("#updateTaskStatus").val(selectedTask.status || "active");
     $("#updateModal").removeClass("active");
  });
 
-  $(document).on("click", ".delete-task", function(){
-        var id=$(this).data("id");
-        console.log("Delete task clicked:", id);
+$(document).on("click", ".delete-task", function(){
+
+    var id = $(this).data("id");
+
+    console.log("Delete task clicked:", id);
 
     $.ajax({
-        url: API_ROOT + "/deleteItem_action.php",
+        url: API_ROOT + "/deleteItem_action.php?item_id=" + id,
         method: "DELETE",
-        dataType: "json",
-        contentType: "text/plain",
-        data: JSON.stringify({
-            item_id: id
-        })
+        dataType: "json"
     })
     .done(function(response){
+
         console.log("Delete response:");
         console.log(response);
+
+    })
+    .fail(function(xhr){
+
+        console.log("Delete failed:");
+        console.log(xhr.responseText);
+
     });
-task = task.filter(function(t){
-    return t.item_id != id;
+
+    // Remove the note from the screen immediately
+    task = task.filter(function(t){
+        return t.item_id != id;
+    });
+
+    renderNotes(task);
+
+    showNotification("Task deleted successfully!");
 });
-
-renderNotes(task);
-   });
-
     
 
-//note for proffessor read me  
-//HI I know your wondering why is there a note on the code well...
-// Access to XMLHttpRequest at 'https://todo-list.dcism.org/deleteItem_action.php' from origin 'http://127.0.0.1:3000' has been blocked by CORS policy: Method DELETE is not allowed by Access-Control-Allow-Methods in preflight response.
-//jquery-3.7.1.min.js:2  DELETE https://todo-list.dcism.org/deleteItem_action.php net::ERR_FAILED
-//and 
-//Access to XMLHttpRequest at 'https://todo-list.dcism.org/editItem_action.php' from origin 'http://127.0.0.1:3000' has been blocked by CORS policy: Method PUT is not allowed by Access-Control-Allow-Methods in preflight response.
-//jquery-3.7.1.min.js:2  PUT https://todo-list.dcism.org/editItem_action.php net::ERR_FAILED
-//everything else works expect for these as I do not have the authority to access it
    
 
 
@@ -180,6 +237,7 @@ console.log("Priority: " + priority);
     .done(function(response){
         console.log("Add task Response: ");
         console.log(response);
+         showNotification("Task added successfully!");
         response.data.priority = priority;
    task.push(response.data);
    
@@ -213,11 +271,27 @@ $("#updateTaskForm").on("submit", function(e){
             item_id: id
         })
     })
-    .done(function(response){
-        console.log("Update response:");
-        console.log(response);
+.done(function(response){
+
+    console.log("Update response:");
+    console.log(response);
+
+    var selectedTask = task.find(function(t){
+        return t.item_id == id;
     });
 
+    if(selectedTask){
+        selectedTask.item_name = name;
+        selectedTask.item_description = description;
+    }
+
+    renderNotes(task);
+
+    $("#updateModal").removeClass("active");
+
+    showNotification("Task updated successfully!");
 });
+});
+
 
 });

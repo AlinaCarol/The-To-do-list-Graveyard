@@ -533,3 +533,55 @@ body {
 .note.inactive {
     background-color: #d3d3d3;
 }
+#notification {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+
+    background: #3a3630;
+    color: white;
+
+    padding: 12px 18px;
+    border-radius: 6px;
+
+    font-size: 14px;
+
+    opacity: 0;
+    transform: translateY(20px);
+
+    pointer-events: none;
+
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.done-task {
+    position: absolute;
+    right: 52px;
+    bottom: 12px;
+
+    border: none;
+    background: none;
+
+    cursor: pointer;
+    font-size: 14px;
+    color: #3a3630;
+
+    transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.done-task:hover {
+    color: #5f754f;
+    transform: scale(1.15);
+}
+
+.done-task:active {
+    transform: scale(0.95);
+}
+
+.done-task i {
+    font-size: 14px;
+}

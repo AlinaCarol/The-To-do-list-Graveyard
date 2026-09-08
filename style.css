@@ -1,0 +1,587 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #000;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* ---------- Main content ---------- */
+
+.main {
+    flex: 1;
+    background: #f4f1ea;
+    padding: 32px 32px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+#clearSearch {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 18px;
+    line-height: 1;
+    color: #333;
+    cursor: pointer;
+    padding: 4px;
+}
+
+
+/* ---------- Page switching ---------- */
+
+.page {
+    display: none;
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0s linear 0.25s;
+}
+
+.page.active {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0s linear 0s;
+}
+
+.main {
+    display: grid;
+}
+
+.main > .search-bar {
+    grid-row: 1;
+}
+
+.main > .page {
+    grid-row: 2;
+}
+
+
+/* ---------- Sticky notes ---------- */
+
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 28px 24px;
+    padding-bottom: 32px;
+}
+
+.note {
+    position: relative;
+
+    background: #ffd966;
+
+    min-height: 140px;
+
+    border-radius: 2px;
+
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+
+    padding: 20px 14px 14px;
+
+    font-size: 14px;
+    color: #3a3630;
+
+    cursor: pointer;
+}
+
+.note::before {
+    content: "";
+
+    position: absolute;
+
+    top: -12px;
+    left: 50%;
+
+    width: 20px;
+    height: 20px;
+
+    border-radius: 50%;
+
+    background: #d94f4f;
+
+    transform: translateX(-50%);
+
+    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.note-title {
+    font-weight: 600;
+    margin: 0 0 6px;
+}
+
+.note p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.note-title {
+    font-weight: 600;
+    margin: 0 0 6px;
+}
+
+.note p {
+    margin: 0;
+    line-height: 1.4;
+    color: #5c554c;
+}
+
+.note-empty {
+    grid-column: 1 / -1;
+    color: #7a746a;
+    font-style: italic;
+    padding: 12px 0;
+}
+
+
+/* ---------- Sidebar ---------- */
+
+.sidebar {
+    width: 200px;
+    flex-shrink: 0;
+
+    background: #d9cfc6;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 40px 0;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+
+    gap: 28px;
+
+    align-items: flex-end;
+
+    padding-right: 32px;
+}
+
+.sidebar-bottom {
+    display: flex;
+    justify-content: flex-end;
+
+    padding-right: 32px;
+}
+
+.nav-link {
+    color: #3a3630;
+
+    text-decoration: none;
+
+    font-size: 16px;
+
+    position: relative;
+
+    transition: color 0.15s ease;
+}
+
+.nav-link::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: -4px;
+
+    width: 0;
+    height: 2px;
+
+    background: #3a3630;
+
+    transition: width 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #000;
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+/* ---------- Add Task ---------- */
+
+.add-task-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.add-task-header {
+    position: relative;
+
+    background: #fdf6d8;
+
+    padding: 28px 30px 24px;
+
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12);
+
+    transform: rotate(-0.5deg);
+
+    margin-bottom: 28px;
+}
+
+.add-task-header h2 {
+    margin: 0 0 8px;
+
+    font-size: 26px;
+    font-weight: 600;
+
+    color: #3a3630;
+}
+
+.add-task-header p {
+    margin: 0;
+
+    color: #7a746a;
+    font-size: 14px;
+}
+
+
+/* Pushpin */
+
+.add-task-pin {
+    position: absolute;
+
+    top: -11px;
+    left: 50%;
+
+    width: 20px;
+    height: 20px;
+
+    background: #d94f4f;
+
+    border-radius: 50%;
+
+    transform: translateX(-50%);
+
+    box-shadow:
+        inset 0 -3px 4px rgba(0, 0, 0, 0.2),
+        0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Form */
+
+.task-form {
+    background: #fff;
+
+    padding: 30px;
+
+    border: 1px solid #ddd7ce;
+
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #3a3630;
+}
+
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #c9c2b8;
+
+    border-radius: 6px;
+
+    background: #fdfcf9;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    color: #3a3630;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.form-group textarea {
+    min-height: 130px;
+
+    resize: vertical;
+}
+
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #a99e8f;
+
+    box-shadow: 0 0 0 3px rgba(169, 158, 143, 0.15);
+}
+
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #aaa39a;
+}
+
+
+/* Add button */
+
+.add-task-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 12px 22px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #3a3630;
+
+    color: white;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.add-task-button:hover {
+    background: #24211e;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+.add-task-button:active {
+    transform: translateY(0);
+}
+
+.note {
+    position: relative;
+}
+
+.edit-task,
+.delete-task {
+    position: absolute;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit-task {
+    right: 32px;
+    bottom: 12px;
+}
+
+.delete-task {
+    right: 12px;
+    bottom: 12px;
+}
+.update-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1000;
+}
+
+.update-modal.active {
+    display: flex;
+}
+
+.update-modal-box {
+    position: relative;
+
+    width: 90%;
+    max-width: 500px;
+
+    background: #fff;
+    padding: 30px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+    transform: rotate(-0.5deg);
+}
+
+.update-modal-box h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+
+    color: #3a3630;
+}
+
+.close-update {
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    border: none;
+    background: none;
+
+    font-size: 20px;
+    color: #3a3630;
+
+    cursor: pointer;
+}
+
+.close-update:hover {
+    transform: scale(1.1);
+}
+
+.update-task-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 12px 22px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #3a3630;
+    color: white;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.update-task-button:hover {
+    background: #24211e;
+}
+/* Note priority colors */
+
+.note.high-priority {
+    background-color: #f10000;
+}
+
+.note.normal-priority {
+    background-color: #ffe58f;
+    color: white; 
+}
+
+.note.important-priority {
+    background-color: #10f100;
+}
+
+/* Inactive task */
+
+.note.inactive {
+    background-color: #d3d3d3 !important;
+}
+#notification {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+
+    background: #3a3630;
+    color: white;
+
+    padding: 12px 18px;
+    border-radius: 6px;
+
+    font-size: 14px;
+
+    opacity: 0;
+    transform: translateY(20px);
+
+    pointer-events: none;
+
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.done-task {
+    position: absolute;
+    right: 52px;
+    bottom: 12px;
+
+    border: none;
+    background: none;
+
+    cursor: pointer;
+    font-size: 14px;
+    color: #3a3630;
+
+    transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.done-task:hover {
+    color: #5f754f;
+    transform: scale(1.15);
+}
+
+.done-task:active {
+    transform: scale(0.95);
+}
+
+.done-task i {
+    font-size: 14px;
+}

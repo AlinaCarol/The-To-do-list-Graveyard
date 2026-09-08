@@ -531,7 +531,7 @@ body {
 /* Inactive task */
 
 .note.inactive {
-    background-color: #d3d3d3;
+    background-color: #d3d3d3 !important;
 }
 #notification {
     position: fixed;

@@ -107,47 +107,47 @@ function showNotification(message){
     }, 2500);
 }
 function changeTaskStatus(taskId){
-
     $.ajax({
-        url: API_ROOT + "/statusItem_action.php?item_id=" + taskId + "&status=inactive",
-        method: "PUT",
-        dataType: "json"
-    }) 
+        url: API_ROOT + "/statusItem_action.php",
+        method: "POST",              
+        dataType: "json",
+        contentType: "text/plain",
+        data: JSON.stringify({
+            status: "inactive",
+            item_id: taskId
+        })
+    })
     .done(function(response){
-
         console.log("Status Response:");
         console.log(response);
-
-        task = task.filter(function(t){
-            return t.item_id != taskId;
-        });
-
-        renderNotes(task);
-
-        showNotification("Task completed!");
-
     })
     .fail(function(xhr){
-
         console.log("Status update failed:");
         console.log(xhr.responseText);
-
     });
 }
-$(document).on("click", ".done-task", function(){
+
+$(document).on("click", ".done-task", function(){   
 
     var id = $(this).data("id");
 
     console.log("Done task clicked:", id);
 
-    changeTaskStatus(id);
-});
-$(document).on("click", ".done-task", function(){
-    var id = $(this).data("id");
+    var note = $(this).closest(".note");
 
-    console.log("Done task clicked:", id);
+    note.removeClass("high-priority");
+    note.removeClass("important-priority");
+    note.removeClass("normal-priority");
 
-    changeTaskStatus(id);
+    note.addClass("inactive");
+
+    changeTaskStatus(id);   // <-- this line was missing — actually notify the backend
+
+    // keep the in-memory task list in sync so a re-render doesn't lose the change
+    var doneTask = task.find(function(t){ return t.item_id == id; });
+    if (doneTask) doneTask.status = "inactive";
+
+    showNotification("Task completed!");
 });
   $(document).on("click", ".edit-task", function(){
         var id=$(this).data("id");
@@ -262,7 +262,7 @@ $("#updateTaskForm").on("submit", function(e){
 
     $.ajax({
         url: API_ROOT + "/editItem_action.php",
-        method: "PUT",
+        method: "POST",
         dataType: "json",
         contentType: "text/plain",
         data: JSON.stringify({
